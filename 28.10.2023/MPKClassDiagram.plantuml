@@ -1,0 +1,42 @@
+@startuml "Mpk Class Diagram"
+class Person
+class Driver
+class Controller
+class Passenger
+class Bank{
+    authorizePayment()
+}
+class Ticket{
+    validated: bool
+    tiemstamp
+}
+class TicketMachine{
+    sellTicket(): Ticket
+}
+class TicketValidator{
+    'validate(t:Ticket)
+    validate(Ticket)
+}
+class Vehicle{
+    'doors: Door[]
+
+}
+class Bus
+class Door{
+    -isOpen: bool
+    +open()
+    +close()
+    +isOpen(): bool
+}
+
+Driver --|> Person
+Controller --|> Person
+Bus --|> Vehicle
+Vehicle "doors" *-- Door
+Driver -- Vehicle
+Passenger -- Vehicle
+Passenger *-- Ticket
+TicketMachine --* Bus
+TicketValidator --* Bus
+TicketMachine -- Bank 
+@enduml
