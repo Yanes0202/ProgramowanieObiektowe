@@ -6,20 +6,21 @@ class Passenger
 class Bank{
     authorizePayment()
 }
-class Ticket{
-    validated: bool
-    tiemstamp
-}
-class TicketMachine{
-    sellTicket(): Ticket
-}
 class TicketValidator{
     'validate(t:Ticket)
     validate(Ticket)
 }
+class TicketMachine{
+    sellTicket(): Ticket
+}
+class Ticket{
+    validated: bool
+    tiemstamp
+}
 class Vehicle{
     'doors: Door[]
-
+    start()
+    stop()
 }
 class Bus
 class Door{
@@ -28,15 +29,21 @@ class Door{
     +close()
     +isOpen(): bool
 }
+class Stop{}
+class Course {}
 
 Driver --|> Person
 Controller --|> Person
 Bus --|> Vehicle
 Vehicle "doors" *-- Door
-Driver -- Vehicle
-Passenger -- Vehicle
-Passenger *-- Ticket
-TicketMachine --* Bus
-TicketValidator --* Bus
-TicketMachine -- Bank 
+Driver -right- Vehicle
+Passenger "vehicle" -down--* "passengers" Vehicle
+Passenger *-left- Ticket
+TicketValidator --* Vehicle
+TicketMachine --* Vehicle
+TicketMachine -up- Bank
+Controller --* Vehicle
+Course *-- Stop
+Vehicle -- Course
+Passenger "fomal_stop" -- Stop
 @enduml

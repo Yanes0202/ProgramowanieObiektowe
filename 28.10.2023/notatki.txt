@@ -1,5 +1,6 @@
 Kapsulacja
 
-
 profesor nie będzie się zastanawiał na temat znaku --o --*
 
+Diagram aktywności:
+synchronizacja

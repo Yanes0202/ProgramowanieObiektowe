@@ -1,0 +1,20 @@
+@startuml "MPK Activity Diagram"
+(*) --> "Step into a bus"
+--> if "ticket is valid" then 
+--> [yes] "Take place in the bus" as takePlace
+else 
+--> [not valid] "Validate a ticket" as validate
+--> takePlace
+else 
+--> [no tickets] "Buy a ticket"
+--> validate
+endif
+takePlace --> "Travelling with the bus" as travelling
+--> "Next Stop"
+if "it's a final stop" then
+--> [yes] "Step out"
+--> (*)
+else
+--> [no] travelling
+endif
+@enduml

@@ -1,0 +1,24 @@
+@startuml "Shop Activity Diagram"
+
+(*) --> if "Shop open" then
+--> [yes] "Is open" as isOpen
+else 
+--> [no] "Is closed"
+--> endShopping
+endif
+isOpen --> "Open door"
+--> "Look for product" as lookForProduct
+--> if "Is required product here?" then
+--> [yes] "There is"
+--> "Grab it" 
+--> lookForProduct
+else
+--> [no] "There is not" as thereIsNot
+endif
+if "Are there any other product on your list?"
+--> [yes] lookForProduct
+else
+--> [no] "End shopping"
+--> (*)
+
+@enduml
