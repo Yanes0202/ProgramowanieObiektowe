@@ -1,0 +1,26 @@
+@startuml Shop Sequence Diagram
+participant Buyer
+participant Seller
+participant Shop
+participant Product
+
+Buyer -> Buyer : goShoping()
+activate Buyer
+
+alt is shop open
+Buyer -> Buyer : getIn()
+Buyer -> Seller : isProductAvailable(Product)
+activate Seller
+Seller -> Shop : isAvailable(Product)
+Shop --> Seller : isAvailable
+Seller -> Product : getProduct(Product)
+Product --> Seller : product
+Seller --> Buyer : chosePayment
+Buyer -> Seller : payment
+Seller --> Buyer : product
+deactivate Seller
+
+else closed
+Buyer -> Buyer : goShoping()
+end
+@enduml
