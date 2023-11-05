@@ -4,6 +4,7 @@ participant Seller
 participant Shop
 participant Product
 
+loop goShoping
 Buyer -> Buyer : goShoping()
 activate Buyer
 
@@ -19,8 +20,7 @@ Seller --> Buyer : chosePayment
 Buyer -> Seller : payment
 Seller --> Buyer : product
 deactivate Seller
-
-else closed
-Buyer -> Buyer : goShoping()
 end
+end
+Buyer -> Buyer : goHome()
 @enduml
