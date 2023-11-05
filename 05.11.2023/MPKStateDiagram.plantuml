@@ -1,0 +1,33 @@
+@startuml Mpk State Diagram
+
+state Passenger {
+    state "Ticket not validated" as newTicket
+    state "Ticket validated" as validTicket
+    state Bus
+}
+
+newTicket: validated = false
+newTicket: timestamp = -1
+
+validTicket: validated = true
+validTicket: timestamp > 0
+
+[*] -up-> newTicket
+newTicket -left-> validTicket : setTimestamp(date)
+
+state "Ticket Machine iddle" as iddleTM
+state "Ticket Machine selecting ticket type" as selectTM
+state "Ticket Machine selecting payment method" as paymentChoiceTM
+state "Ticket Machine wait for card" as cardTouchTM
+state "Ticket Machine payment authorization" as authTM
+state "Ticket Machine printing" as printTM
+[*] -down-> iddleTM
+iddleTM -left-> selectTM : user interacted
+selectTM -left-> paymentChoiceTM 
+paymentChoiceTM -up-> cardTouchTM : card payment
+cardTouchTM -right-> authTM : touched
+authTM -right-> printTM : success
+authTM -down-> paymentChoiceTM : failed
+printTM -> iddleTM
+
+@enduml
