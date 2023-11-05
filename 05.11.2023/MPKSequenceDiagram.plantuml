@@ -1,0 +1,55 @@
+@startuml "MPK Sequence Diagram"
+participant Passenger
+participant Bus
+participant TicketValidator
+participant TicketMachine
+
+
+Passenger -> Passenger : stepIn(Bus)
+activate Passenger
+Passenger -> Passenger : hasActiveTicket()
+activate Passenger
+return
+
+alt "no no active tickets"
+    Passenger -> Bus : getTicketMachine()
+        activate Bus
+    return TicketMachine
+    Passenger -> TicketMachine : buyTicket()
+        activate TicketMachine
+        TicketMachine -> Passenger : selectPaymentMethod and pay
+            Passenger --> TicketMachine : payment
+        return Ticket
+    Passenger -> Bus : getTicketValidator()
+        activate Bus
+    return TicketValidator
+    Passenger -> TicketValidator : validate(Ticket)
+        activate TicketValidator
+        TicketValidator -> Ticket : setTimestamp(date)
+            activate Ticket
+        return
+    return
+else is active Ticket
+Passenger -> Bus : getTicketValidator()
+activate Bus
+return TicketValidator
+Passenger -> TicketValidator : validate(Ticket)
+activate TicketValidator
+TicketValidator -> Ticket : setTimestamp(date)
+activate Ticket
+return
+return
+end
+
+loop is final stop
+Passenger -> Bus : getToNextStop()
+activate Bus
+Bus -> Bus : drive()
+return stop
+end 
+
+Passenger -> Passenger : stepOut()
+deactivate Passenger
+
+
+@enduml
