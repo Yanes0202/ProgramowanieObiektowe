@@ -4,9 +4,10 @@ participant Seller
 participant Shop
 participant Product
 
-loop goShoping
 Buyer -> Buyer : goShoping()
 activate Buyer
+
+loop continueShopping
 
 alt is shop open
 Buyer -> Buyer : getIn()
@@ -16,8 +17,8 @@ Seller -> Shop : isAvailable(Product)
 Shop --> Seller : isAvailable
 Seller -> Product : getProduct(Product)
 Product --> Seller : product
-Seller --> Buyer : chosePayment
-Buyer -> Seller : payment
+Seller -> Buyer : chosePayment
+Buyer --> Seller : payment
 Seller --> Buyer : product
 deactivate Seller
 end
