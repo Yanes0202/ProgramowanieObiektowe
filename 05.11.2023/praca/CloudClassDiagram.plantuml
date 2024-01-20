@@ -1,0 +1,116 @@
+@startuml Cloud Class Diagram
+class App {
+    user
+    state
+    getAuth()
+    isLogedIn()
+}
+
+class Login {
+    state
+    signIn()
+}
+
+class Feed {
+    posts: Post[]
+    loading: boolean
+    getPosts()
+}
+
+class PostCreator {
+    user
+    popup: boolean
+    beOnline()
+}
+
+class CreatePostPopUp {
+    onClose
+    children
+
+    user
+    input: String
+    imageURL: String
+    createPost()
+    beOnline()
+}
+
+class Post {
+    postId
+    profilePic
+    image
+    userName
+    timeStamp
+    userId
+    body
+    likes
+
+    comments: Comment[]
+    user
+    newComment: Comment
+    showComments: boolean
+    liked: boolean
+    configDropDown: boolean
+    dropDownAvailable: boolean
+    timestamp
+    getComments()
+    createComment()
+    postComments()
+    toggleComments()
+    toggleLike()
+    dropDownComments()
+    beOnline()
+}
+
+class Comment {
+    commentId
+    postId
+    timeStamp
+    body
+    profilePic
+    userName
+    userId
+    likes
+
+    user
+    newComment: Comment
+    replyForm: boolean
+    dropDownAvailable: boolean
+    editDropDown: boolean
+    canEdit: boolean
+    editValue: boolean
+    isLiked: boolean
+    createComment()
+    toggleReplyForm()
+    beOnline()
+    toggleDropDown()
+    editComment()
+    toggleLike()
+}
+
+class UserList {
+    users: User[]
+    user
+    getUser()
+}
+
+class User {
+    id
+    name
+    logTimestamp
+    profilePic
+    activeCheck()
+}
+
+
+App .> Login
+App --|> UserList
+App --|> Feed
+UserList "1" --* "many" User
+Feed --|> PostCreator
+Feed "1"--*"many" Post
+PostCreator --|> CreatePostPopUp
+
+Post "1" --* "many" Comment
+
+
+@enduml

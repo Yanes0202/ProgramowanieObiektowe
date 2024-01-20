@@ -1,0 +1,139 @@
+@startuml Cloud Sequence DiagramBorderColor
+participant User
+participant LoginPage
+participant HomePage
+participant Posts
+participant Comments
+participant Contacts
+participant Users
+
+alt Sign in
+    User -> LoginPage : signIn()
+    activate LoginPage
+    LoginPage --> Users : addUser()
+    activate Users
+    Users --> LoginPage : returnUserData()
+    deactivate Users
+else Log in
+    User -> LoginPage : logIn()
+    activate LoginPage
+    LoginPage --> Users : checkUser()
+    activate Users
+    Users --> LoginPage : returnUserData()
+    deactivate Users
+end
+
+
+alt Log in is successfull
+    LoginPage -> HomePage : successfullLogin()
+    deactivate LoginPage
+    deactivate LoginPage
+    activate HomePage
+    HomePage --> Contacts : setOnline()
+    activate Contacts
+    Contacts --> HomePage : returnStatus()
+    deactivate Contacts
+
+    loop Realtime connection to DB
+        HomePage --> Posts : getPosts()
+        activate Posts
+        Posts --> HomePage : returnPostsData()
+        deactivate Posts
+        HomePage --> Comments : getComments()
+        activate Comments
+        Comments --> HomePage : returnCommentsData()
+        deactivate Comments
+        HomePage --> Contacts : getContacts()
+        activate Contacts
+        Contacts --> HomePage : returnContactsData()
+        deactivate Contacts
+    end
+
+    HomePage -> User : displayPostsAndUsersStatus()
+    deactivate HomePage
+
+    opt User write Post
+        User -> HomePage : writePost()
+        deactivate User
+        activate HomePage
+        HomePage --> Posts : addPost()
+        activate Posts
+        Posts --> HomePage : returnPostsData()
+        deactivate Posts
+        HomePage -> User : displayPosts()
+        deactivate HomePage
+    end
+
+    opt User edit Post
+        User -> HomePage : editPost()
+        deactivate User
+        activate HomePage
+        HomePage --> Posts : putPost()
+        activate Posts
+        Posts --> HomePage : returnPostsData()
+        deactivate Posts
+        HomePage -> User : displayPosts()
+        deactivate HomePage
+    end
+
+    opt User likes Post
+        User -> HomePage : likePost()
+        deactivate User
+        activate HomePage
+        HomePage --> Posts : changeLikesCount()
+        activate Posts
+        Posts --> HomePage : returnPostsData()
+        deactivate Posts
+        HomePage -> User : displayPosts()
+        deactivate HomePage
+    end
+
+    opt User opens comments view
+        User -> HomePage : showComments()
+        deactivate User
+        activate HomePage
+        HomePage -> User : displayComments()
+        deactivate HomePage
+    end
+
+    opt User write comment
+        User -> HomePage : writeComment()
+        deactivate User
+        activate HomePage
+        HomePage --> Comments : addComment()
+        activate Comments
+        Comments --> HomePage : returnCommentsData()
+        deactivate Comments
+        HomePage -> User : displayComments()
+        deactivate HomePage
+    end
+
+    opt User edit comment
+        User -> HomePage : editComment()
+        deactivate User
+        activate HomePage
+        HomePage --> Comments : putComment()
+        activate Comments
+        Comments --> HomePage : returnCommentsData()
+        deactivate Comments
+        HomePage -> User : displayComments()
+        deactivate HomePage
+    end 
+
+    opt User likes Comment
+        User -> HomePage : likeComment()
+        deactivate User
+        activate HomePage
+        HomePage --> Comments : changeLikesCount()
+        activate Comments
+        Comments --> HomePage : returnCommentsData()
+        deactivate Comments
+        HomePage -> User : displayComments()
+        deactivate HomePage
+    end
+
+else Log in is unsuccessfull
+    LoginPage -> User : returnError()
+end
+
+@enduml
