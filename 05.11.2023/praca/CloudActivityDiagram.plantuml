@@ -1,0 +1,46 @@
+@startuml Cloud Activity Diagram
+
+(*) --> "Spróbuj się zalogować"
+
+if "Logowanie udane" then
+-down-> [prawda] "Przeglądaj posty" as seePosts
+
+    seePosts -left-> if "Użytkownik chce dać like pod postem" then
+    -left-> [prawda] "Daj like" 
+    -> seePosts
+    else
+    --> [nieprawda] seePosts
+    endif
+    
+    seePosts -left-> if "Użytkownik chce zobaczyć komentarze" then
+    --> [prawda] "Przeglądaj komentarze"
+        -> if "Użytkownik chce dać like pod komentarzem" then
+        --> [prawda] "Daj like" 
+        --> seePosts
+        else
+        --> [nieprawda] "Przeglądaj komentarze"
+        endif
+    else
+    --> [nieprawda] seePosts
+    endif
+
+    seePosts -down-> if "Użytkownik chce utworzyć post" then
+    -right-> [prawda] "Utwórz post"
+    -left-> seePosts
+    else
+    --> [nieprawda] seePosts
+    endif
+    
+    if "Użytkownik chce sprawdzić aktywność innych" then
+    --> [prawda] "Zobacz aktywność"
+    -> seePosts
+    else
+    --> [nieprawda] seePosts
+    endif
+    
+    seePosts -left->(*)
+else
+-left-> [nieprawda] (*)
+endif
+
+@enduml

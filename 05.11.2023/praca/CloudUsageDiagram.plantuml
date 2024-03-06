@@ -1,0 +1,18 @@
+@startuml Cloud Usage Diagram
+
+:User: -down-> (Przeglądanie postów)
+(Przeglądanie postów) .down.> :Posts Table:
+:User: -down-> (Tworzenie posta)
+(Tworzenie posta) .down.> :Posts Table:
+:User: -down-> (Likowanie posta)
+(Likowanie posta) .down.> :Posts Table:
+:User: -down-> (Przeglądanie komentarzy)
+(Przeglądanie komentarzy) .down.> :Comments Table:
+:User: -down-> (Tworzenie komentarza)
+(Tworzenie komentarza) .down.> :Comments Table:
+:User: -down-> (Likowanie komentarza)
+(Likowanie komentarza) .down.> :Comments Table:
+:User: -down-> (Sprawdzanie aktywności)
+(Sprawdzanie aktywności) .down.> :Contacts Table:
+
+@enduml
